@@ -295,6 +295,20 @@ input[type="password"] {
     font-family: 'Roboto', sans-serif;
 }
 
+#email {
+    width: 100%;
+    background: #8DC26F;
+    min-height: 50px;
+}
+
+.text {
+    color: #76b852;
+}
+
+option {
+    color: #76b852;
+}
+
 input.email,
 input.text.w3lpass {
     margin: 2em 0;
