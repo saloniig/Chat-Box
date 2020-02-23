@@ -6,22 +6,29 @@ from .forms import *
 from .models import *
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
-
+import json
 
 def Searchform(request):
     if request.method=='GET':
         subject_id=request.GET['username']
 
-        m = User(username=subject_id) # Creating Like Object
-        ipdb.set_trace()
+        #m = User(username=subject_id) 
         #model =globals()[subject_id]
-        searchpost=m.objects.filter(username=subject_id)
-        searchpost=serialize('json', searchpost) 
+        searchpost=User.objects.get(username=subject_id)
+        #ipdb.set_trace()
+        data={
+            'username':searchpost.username,
+            'first_name':searchpost.first_name,
+            'last_name':searchpost.last_name,
+            'email':searchpost.email
+        }
+        #searchpost=serialize('json', data) 
+        searchpost = json.dumps(data, sort_keys = True)
         return HttpResponse(searchpost)
     else:
         return HttpResponse("not success")
 
-# Create your views here.
+
 
 def index(request):
     return render(request,'index.html')
