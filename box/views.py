@@ -7,6 +7,33 @@ from .models import *
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
 import json
+from django.http import HttpResponse 
+from django.shortcuts import render, redirect 
+
+
+ 
+
+def hotel_image_view(request): 
+        
+
+    if request.method == 'POST': 
+        form = HotelForm(request.POST, request.FILES) 
+        #temp = request.POST['person_id']
+  
+        if form.is_valid():
+            form.save() 
+            return redirect('success') 
+    else: 
+        form = HotelForm() 
+        subject_objects = User.objects.all()
+    return render(request, 'registration/hotel_image_form.html', {'form' : form, 'name':request.user.username, 'subject_objects' : subject_objects})
+
+    #return render(request, 'registration/hotel_image_form.html', {'form' : form, 'name':request.user.username}) 
+  
+
+
+def success(request): 
+    return HttpResponse('successfully uploaded') 
 
 def Searchform(request):
     if request.method=='GET':
@@ -29,12 +56,18 @@ def Searchform(request):
         return HttpResponse("not success")
 
 
-
+ 
 def index(request):
     return render(request,'index.html')
 
 def topics(request):
-    return render(request,'registration/topic.html')
+    if request.method == 'GET': 
+
+		# getting all the objects of hotel. 
+        Hotels = Hotel.objects.all() 
+		
+
+    return render(request,'registration/topic.html',{'hotel_images' : Hotels})
 
 def log(request):
     return render(request,'registration/log.html')

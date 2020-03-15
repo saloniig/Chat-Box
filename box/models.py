@@ -21,4 +21,8 @@ class message(models.Model):
     updated_on = models.DateTimeField(auto_now_add=True,blank=True, null=True)
     deleted_on = models.DateTimeField(auto_now_add=True,blank=True, null=True)    
 
+class Hotel(models.Model): 
+    person_id=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=False)
+    hotel_Main_Img = models.ImageField(upload_to='images/') 
+
 # Create your models here.
