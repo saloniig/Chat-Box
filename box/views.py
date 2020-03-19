@@ -9,27 +9,44 @@ from django.contrib.auth.models import User
 import json
 from django.http import HttpResponse 
 from django.shortcuts import render, redirect 
+from django.db.models import Max
+  
 
-
- 
-
+      
 def hotel_image_view(request): 
-        
 
     if request.method == 'POST': 
         form = HotelForm(request.POST, request.FILES) 
+
         #temp = request.POST['person_id']
   
         if form.is_valid():
-            form.save() 
+           # user_objects = User.objects.all()
+            #ipdb.set_trace() 
+            post = form.save() 
+            #post.person_id_id = 
+            post.save()
             return redirect('success') 
     else: 
         form = HotelForm() 
         subject_objects = User.objects.all()
-    return render(request, 'registration/hotel_image_form.html', {'form' : form, 'name':request.user.username, 'subject_objects' : subject_objects})
+        return render(request, 'registration/hotel_image_form.html', {'form' : form, 'name':request.user.username, 'subject_objects' : subject_objects})
 
-    #return render(request, 'registration/hotel_image_form.html', {'form' : form, 'name':request.user.username}) 
-  
+
+       # return render(request, 'registration/hotel_image_form.html', {'form' : form, 'name':request.user.username}) 
+def topics(request):
+    if request.method == 'GET':
+
+#        person=request.GET('person_id')
+#        model=request.GET('hotel_Main_Img')
+#        search=model.objects.filter(person=person_id)    #hai tu ??haa you here? :)
+                # getting all the objects of hotel.
+
+        user_objects = User.objects.get(username = request.user.username)
+        Hotels = Hotel.objects.filter(person_id = user_objects.pk).order_by("-id")
+        #ipdb.set_trace()
+    return render(request,'registration/topic.html',{'hotel_images' : Hotels,'name':request.user.username})
+
 
 
 def success(request): 
@@ -60,14 +77,7 @@ def Searchform(request):
 def index(request):
     return render(request,'index.html')
 
-def topics(request):
-    if request.method == 'GET': 
 
-		# getting all the objects of hotel. 
-        Hotels = Hotel.objects.all() 
-		
-
-    return render(request,'registration/topic.html',{'hotel_images' : Hotels})
 
 def log(request):
     return render(request,'registration/log.html')

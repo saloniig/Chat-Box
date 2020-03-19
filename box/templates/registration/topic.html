@@ -11,6 +11,14 @@
 <!------ Include the above in your HEAD tag ---------->
 
 
+  
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> 
+</script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> 
+</script>
+
 <!DOCTYPE html><html class=''>
 <head>
 	<meta charset="UTF-8"> 
@@ -75,17 +83,25 @@ body{
 }
 </style>
 
-
 <div id="frame">
         <div id="sidepanel">
                 <div id="profile">
                         <div class="wrap">
-                                <img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
+
+    {% for hotel in hotel_images|slice:":1" %}
+    <div class="col-md-4">
+             <img id="profile-img" src="{{ hotel.hotel_Main_Img.url }}" class="online" />
+    </div>
+{% endfor %}
+
+
+
+
 
 
 	
 
-                                <p>Gang</p>
+                                <p>{{ name }}</p>
                                 <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
                                 <div id="status-options">
                                         <ul>
@@ -143,9 +159,15 @@ Log Out</a>
         </div>
         <div class="content">
                 <div class="contact-profile">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
 
-                        <p>Gang</p>
+
+    {% for hotel in hotel_images|slice:":1" %}
+    <div class="col-md-4">
+             <img id="profile-img" src="{{ hotel.hotel_Main_Img.url }}" class="online" />
+    </div>
+{% endfor %}
+
+                        <p>{{ name }}</p>
                         <!--<div class="social-media">
                                 <i class="fa fa-facebook" aria-hidden="true"></i>
                                 <i class="fa fa-twitter" aria-hidden="true"></i>

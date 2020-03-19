@@ -7,11 +7,7 @@
 <body> 
 	<form method = "post" enctype="multipart/form-data"> 
 	<label>{{ name }}</label>
-	{% for subject_object in subject_objects %}
-                                {% if subject_object.person_id == request.user.username %}
-                                         <option value={{ subject_object.id }}>{{ name }}</option>
-                                {% endif %}
-                        {% endfor %}
+
 		{% csrf_token %} 
 		{{ form.as_p }} 
 		<button type="submit">Upload</button> 
