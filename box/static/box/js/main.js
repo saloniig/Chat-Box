@@ -1,57 +1,117 @@
-$('.login100-form-btn').click(function() {
-    var catid;
-    catid = document.getElementById("username").value;
-    //catid = $(this).attr("data-catid");
-    $.ajax({
+var global_data;
+var datetime="";
+
+
+
+setInterval(function(){
+        $.ajax({
         type: "GET",
-        url: "/search",
+        url: '/fetch_data' ,
         data: {
-            username: catid
-        },
-        success: function(data) {
-            data = JSON.parse(data);
-            var body = document.body;
-            counter = 0;
-            document.getElementById("insert").innerHTML = "";
+                reciever_id: global_data,
 
-            var insert = document.getElementById("insert");
-            var a = document.createElement('a');
-            var link = document.createTextNode(data["username"]);
-            document.getElementById("insert").style.textAlign = "center";
-            document.getElementById("insert").style.fontSize = "30px ";
+        },    
+        success: function (data){
+              response_json = JSON.parse(data)
+                if (datetime == ""){
+              datetime = response_json["datetime"]; 
+                }
+                else{
+            
+                         if(datetime!=response_json["datetime"]){
+                                 datetime = response_json["datetime"];
 
-            a.style = 'color:white;font-size:20px,  '
+                                 newMessagerecieved1(response_json["message"]);
+            }   
 
-            a.appendChild(link);
-            a.title = data["username"];
-            a.href = "https://www.geeksforgeeks.org";
-            insert.appendChild(a);
+                }
+           }
+        });
+
+   
+   },4000);
 
 
-            // var new_row = insert.parentNode.insertRow();
-            // put_data = data["username"];
-            // put_data = put_data.replace(/\n/g, "<br />");
-            // new_row.insertCell(0).innerHTML = put_data;
+$('.insert').click(function(){
+    var img = Document.getElementById('profile-img');
+    
+img.src ="{{ hotel.hotel_Main_Img.url }}"
+document.getElementById("profile-img").appendChild(img);
 
-            console.log(data)
-                //alert(data);
-                //$('#search' + search).remove();
-                //$('#message').text(data);
 
+
+});
+$('.login100-form-btn').click(function() {
+var catid;
+catid = document.getElementById("username").value;
+//catid = $(this).attr("data-catid");
+$.ajax({
+    type: "GET",
+    url: "/search",
+    data: {
+        username: catid
+    },  
+    success: function(data) {
+        data = JSON.parse(data);
+        var body = document.body;
+        counter = 0;
+        document.getElementById("insert").innerHTML = "";
+
+        var insert = document.getElementById("insert");
+        var a = document.createElement('a');
+        var link = document.createTextNode(data["username"]);
+        document.getElementById("insert").style.textAlign = "center";
+        document.getElementById("insert").style.fontSize = "30px ";
+        a.style = 'color:white;font-size:20px,  '
+
+        a.title = data["username"];
+
+        insert.appendChild(a);
+
+        document.getElementById("_username_").innerHTML = "";
+        document.getElementById("_username_").innerHTML = data.username;
+
+
+            var img = document.getElementById('profile-img2');
+            img.src = "/media/" + data["hotel_Main_Img"];
+            global_data = data["id"];
+            msg = data["msg"]
+	    document.getElementById("messages").innerHTML = ""; 
+        //console.log(msg);
+            for(message in msg){
+                if(msg[message][2] == data["id"])
+                    {
+                            newMessagerecieved1(msg[message][1]);
+                    }
+                    else{
+                                newMessage1(msg[message][1]);
+                    }
+            }
         }
     });
 });
 
-
+function newMessage1(message) {
+    $('<li class="sent" align = "right"><p>' + message + '</p></li>').appendTo($('.messages ul'));
+    
+    $('.message-input input').val(null);
+    $('.contact.active .preview').html('<span>You: </span>' + message);
+    $(".messages").animate({ scrollBottom: $(document).height() }, "fast");
+};
+function newMessagerecieved1(message) {
+    $('<li class="sent"><p>' + message + '</p></li>').appendTo($('.messages ul'));
+    
+    $('.contact.active .preview').html('<span>You: </span>' + message);
+};
 
 $("#profile-img").click(function() {
     $("#status-options").toggleClass("active");
-});
+}); 
 
 $(".expand-button").click(function() {
     $("#profile").toggleClass("expanded");
     $("#contacts").toggleClass("expanded");
-});
+}); 
 
 $("#status-options ul li").click(function() {
     $("#profile-img").removeClass();
@@ -76,26 +136,81 @@ $("#status-options ul li").click(function() {
     $("#status-options").removeClass("active");
 });
 
-function newMessage() {
-    message = $(".message-input input").val();
+function newMessagerecieved() {
+    message = response_json["message"];
     if ($.trim(message) == '') {
         return false;
     }
     $('<li class="sent"><p>' + message + '</p></li>').appendTo($('.messages ul'));
-  
+
+    $('.contact.active .preview').html('<span>You: </span>' + message);
+    //$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+};
+function newMessage() {
+    message = $(".message-input input").val();
+    if ($.trim(message) == '') {
+        return false;
+    }   
+    $('<li class="sent" align = "right"><p>' + message + '</p></li>').appendTo($('.messages ul'));
+
     $('.message-input input').val(null);
     $('.contact.active .preview').html('<span>You: </span>' + message);
-    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
 };
 
+$('.message-input input').keypress(function() {
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+	if(keycode=='13'){
+//		alert('you press enter key')
+	
+
+    message = $(".message-input input").val();
+   id = global_data;
+        $.ajax(
+        {
+            type:"GET",
+            url: "/likepost",
+            data:{
+                     post_id: message,
+                    reciever_id: id,
+            },
+            success: function( data )
+            {
+                newMessage();
+            }
+	
+	
+    });
+	}
+
+});
+
 $('.submit').click(function() {
-    newMessage();
+//        var keycode = (event.keyCode ? event.keyCode : event.which);
+  //      if(keycode=='13'){
+//              alert('you press enter key')
+
+
+    message = $(".message-input input").val();
+   id = global_data;
+        $.ajax(
+        {
+            type:"GET",
+            url: "/likepost",
+            data:{
+                     post_id: message,
+                    reciever_id: id,
+            },
+            success: function( data )
+            {
+                newMessage();
+            }
+
+
+    });
+        
+
 });
 
-$(window).on('keydown', function(e) {
-    if (e.which == 13) {
-        newMessage();
-        return false;
-    }
 
-});
+
+                

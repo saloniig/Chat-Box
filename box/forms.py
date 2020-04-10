@@ -11,3 +11,5 @@ class HotelForm(forms.ModelForm):
 	class Meta: 
 		model = Hotel 
 		fields = ['person_id','hotel_Main_Img'] 
+
+
