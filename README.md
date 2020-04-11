@@ -1,6 +1,6 @@
 # Chat Box Using Django
 
-In this project there is an online Chat Box with signup and forgot password verification mail . By this project you will get to know a lot about the Rest framework of django and also large amount of  `Javascript`  In this project  `AJAX LIVE SEARCH` is also used that displays the result of username search In this  audio has been also added while sending and receiving mail.
+In this project there is an online Chat Box with signup and forgot password verification mail . By this project you will get to know about the Rest framework of django and also large amount of  `Javascript`  In this project  `AJAX LIVE SEARCH` is also used that displays the result of username search In this  audio has been also added while sending and receiving mail.
 
 # [](https://github.com/saloniig/Online-School-System#about-django)About Django
 
