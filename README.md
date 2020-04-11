@@ -57,11 +57,16 @@ Jump in and turn it on.
 `pip install Django`
 
 ### Other commands:
-`pip install django`
+`pip install django` 
+
 `pip install django-emoji-picker`
+
 `pip install mysqlclient`
+
 `pip install ipdb`
+
 `python -m pip install Pillow`
+
 ### [](https://github.com/saloniig/Online-School-System#perform-database-migration)Perform database migration:
 
 `python manage.py makemigrations`
