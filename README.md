@@ -63,8 +63,6 @@ Jump in and turn it on.
 
 `pip install mysqlclient`
 
-`pip install ipdb`
-
 `python -m pip install Pillow`
 
 ### [](https://github.com/saloniig/Online-School-System#perform-database-migration)Perform database migration:
