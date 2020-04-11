@@ -33,6 +33,8 @@ Django is a high-level Python Web framework that encourages rapid development an
 -   [Part 5 - ORM](https://simpleisbetterthancomplex.com/series/2017/10/02/a-complete-beginners-guide-to-django-part-5.html)
 -   [Part 6 - Class-Based Views](https://simpleisbetterthancomplex.com/series/2017/10/09/a-complete-beginners-guide-to-django-part-6.html)
 -   [Part 7 - Deployment](https://simpleisbetterthancomplex.com/series/2017/10/16/a-complete-beginners-guide-to-django-part-7.html)
+-   [Part 8 - Django Reset Password With Email Verification](https://hackace2.wordpress.com/2020/04/11/django-reset-password-with-email-verification/)
+-   [Part 9 - How to Create a Password Reset View](https://hackace2.wordpress.com/2020/04/11/how-to-create-a-password-reset-view/)
 
 For the complete tutorial series index  [click here](https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/).
 
