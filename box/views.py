@@ -31,7 +31,7 @@ def fetch_data(request):
     return HttpResponse(context)
 
 
-def hotel_image_view(request):
+def image_upload(request):
 
     if request.method == 'POST':
         handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
@@ -43,7 +43,7 @@ def hotel_image_view(request):
 
         image.save()
         #ipdb.set_trace() 
-        return redirect('/topic')
+        return redirect('/chatbox')
 
     else:
 
@@ -61,7 +61,7 @@ def handle_uploaded_file(file, filename):
             destination.write(chunk)
         return chunk
 
-def likePost(request):
+def msg_to_database(request):
         if request.method == 'GET':
             if request.GET.get('post_id'):
                 message_save=message.objects.create(content = request.GET.get('post_id'), sender_id = User.objects.get(id=request.user.id), receiver_id= User.objects.get(id= request.GET.get("reciever_id")))
@@ -80,7 +80,7 @@ def likePost(request):
         else:
                 return HttpResponse("Request method is not a GET")
 
-def topics(request):
+def chatbox(request):
     if request.method == 'GET':
 
 
@@ -94,7 +94,7 @@ def topics(request):
     #print("Success")
     #return HttpResponse('successfully uploaded')
     #return render(request,'registration/topic.html')
-def Searchform(request):
+def search_user(request):
     if request.method=='GET':
         subject_id=request.GET['username']
 

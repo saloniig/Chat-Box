@@ -15,14 +15,14 @@ from .views import *
 urlpatterns = [
     path('',views.index,name='index'),
     path('home',views.index,name='index'),
-    path('topic',login_required(views.topics),name='topics'),
+    path('chatbox',login_required(views.chatbox),name='chatbox'),
     path('log',views.log,name='log'),
-    url(r'^search/$', views.Searchform, name='Search'),
-    path('image_upload', hotel_image_view, name = 'image_upload'),
+    url(r'^search_user/$', views.search_user, name='search_user'),
+    path('image_upload', image_upload, name = 'image_upload'),
    # path('success', success, name = 'success'),
 
     #      path('likepost',views.likepost, name='likepost'),
-    url(r'^likepost/$', views.likePost, name='likepost'),   # likepost view at /likepost
+    url(r'^msg_to_database/$', views.msg_to_database, name='msg_to_database'),   # likepost view at /likepostsahi ????
     url(r'^fetch_data/$',views.fetch_data,name='fetch_data'),
 
 

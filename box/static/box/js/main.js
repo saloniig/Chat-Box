@@ -1,6 +1,7 @@
 var global_data;
 var datetime="";
-
+send_msg = new Audio("https://code.gdy.club/~1715359/msgsent.mp3");
+receive_msg = new Audio("https://code.gdy.club/~1715359/notification.mp3");
 
 
 setInterval(function(){
@@ -20,8 +21,8 @@ setInterval(function(){
             
                          if(datetime!=response_json["datetime"]){
                                  datetime = response_json["datetime"];
-
-                                 newMessagerecieved1(response_json["message"]);
+				sound="true";
+                                 newMessagerecieved1(response_json["message"],sound);
             }   
 
                 }
@@ -47,7 +48,7 @@ catid = document.getElementById("username").value;
 //catid = $(this).attr("data-catid");
 $.ajax({
     type: "GET",
-    url: "/search",
+    url: "/search_user",
     data: {
         username: catid
     },  
@@ -81,27 +82,35 @@ $.ajax({
             for(message in msg){
                 if(msg[message][2] == data["id"])
                     {
-                            newMessagerecieved1(msg[message][1]);
+			    sound ="false";
+                            newMessagerecieved1(msg[message][1],sound);
                     }
                     else{
-                                newMessage1(msg[message][1]);
+			    sound="true";
+                                newMessage1(msg[message][1], sound);
                     }
             }
         }
     });
 });
 
-function newMessage1(message) {
+function newMessage1(message, sound) {
     $('<li class="sent" align = "right"><p>' + message + '</p></li>').appendTo($('.messages ul'));
     
-    $('.message-input input').val(null);
+    $('.message-input textarea').val(null);
     $('.contact.active .preview').html('<span>You: </span>' + message);
     $(".messages").animate({ scrollBottom: $(document).height() }, "fast");
+	if(sound == "true"){
+		send_msg.play();
+	}
 };
-function newMessagerecieved1(message) {
+function newMessagerecieved1(message,sound) {
     $('<li class="sent"><p>' + message + '</p></li>').appendTo($('.messages ul'));
     
     $('.contact.active .preview').html('<span>You: </span>' + message);
+	if(sound=="true"){
+		receive_msg.play();
+	}
 };
 
 $("#profile-img").click(function() {
@@ -147,28 +156,31 @@ function newMessagerecieved() {
     //$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 };
 function newMessage() {
-    message = $(".message-input input").val();
+    message = $(".message-input textarea").val();
     if ($.trim(message) == '') {
         return false;
     }   
     $('<li class="sent" align = "right"><p>' + message + '</p></li>').appendTo($('.messages ul'));
 
-    $('.message-input input').val(null);
+    $('.message-input textarea').val(null);
     $('.contact.active .preview').html('<span>You: </span>' + message);
+	send_msg.play();
 };
 
-$('.message-input input').keypress(function() {
+$('.message-input textarea').keypress(function() {
 	var keycode = (event.keyCode ? event.keyCode : event.which);
-	if(keycode=='13'){
+	if(keycode=='13' && event.shiftKey){ 
+	}
+	else if(keycode=='13'){
 //		alert('you press enter key')
 	
 
-    message = $(".message-input input").val();
+    message = $(".message-input textarea").val();
    id = global_data;
         $.ajax(
         {
             type:"GET",
-            url: "/likepost",
+            url: "/msg_to_database",
             data:{
                      post_id: message,
                     reciever_id: id,
@@ -190,12 +202,12 @@ $('.submit').click(function() {
 //              alert('you press enter key')
 
 
-    message = $(".message-input input").val();
+    message = $(".message-input textarea").val();
    id = global_data;
         $.ajax(
         {
             type:"GET",
-            url: "/likepost",
+            url: "/msg_to_database",
             data:{
                      post_id: message,
                     reciever_id: id,
